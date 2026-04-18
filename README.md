@@ -22,19 +22,16 @@ A full-stack To-Do List application built with **React**, **Node.js**, and **Typ
 
 ## Tech Stack
 
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| Frontend  | React 18, TypeScript, Vite, Axios   |
-| Backend   | Node.js, Express, TypeScript        |
-| Database  | MongoDB (Atlas or in-memory fallback)|
-| Auth      | JWT (jsonwebtoken) + bcryptjs       |
+| Layer     | Technology                        |
+|-----------|-----------------------------------|
+| Frontend  | React 18, TypeScript, Vite, Axios |
+| Backend   | Node.js, Express, TypeScript      |
+| Database  | MongoDB Atlas                     |
+| Auth      | JWT (jsonwebtoken) + bcryptjs     |
 
----
 ---
 
 ## Running Locally
-
----
 
 ### 1. Clone the repository
 
@@ -56,17 +53,18 @@ Create a `.env` file in the `backend/` directory:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/
+MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 MONGO_DATABASE=Todo
 JWT_SECRET=your_super_secret_key_here
+CLIENT_URL=http://localhost:5173
 ```
 
 Start the backend:
 
 ```bash
-npm run dev      # Development (ts-node-dev)
+npm run dev      # Development (hot reload)
 # or
-npm run build && npm start   # Production
+npm start        # Production (builds then runs)
 ```
 
 The API will be available at `http://localhost:5000`.
@@ -100,10 +98,10 @@ The app will be available at `http://localhost:5173`.
 
 ### Auth
 
-| Method | Endpoint             | Description         | Auth Required |
-|--------|----------------------|---------------------|---------------|
-| POST   | `/api/auth/register` | Create a new account| No            |
-| POST   | `/api/auth/login`    | Log in              | No            |
+| Method | Endpoint             | Description          | Auth Required |
+|--------|----------------------|----------------------|---------------|
+| POST   | `/api/auth/register` | Create a new account | No            |
+| POST   | `/api/auth/login`    | Log in               | No            |
 
 ### Todos
 
@@ -121,35 +119,47 @@ The app will be available at `http://localhost:5173`.
 
 ### Backend (`backend/.env`)
 
-| Variable        | Description                          | Default     |
-|-----------------|--------------------------------------|-------------|
-| `PORT`          | Server port                          | `5000`      |
-| `MONGO_URI`     | MongoDB connection string            | (in-memory) |
-| `MONGO_DATABASE`| Database name                        | `Todo`      |
-| `JWT_SECRET`    | Secret key for signing JWT tokens    | Required    |
+| Variable         | Description                       | Required |
+|------------------|-----------------------------------|----------|
+| `PORT`           | Server port                       | No (5000)|
+| `MONGO_URI`      | MongoDB Atlas connection string   | Yes      |
+| `MONGO_DATABASE` | Database name                     | No (Todo)|
+| `JWT_SECRET`     | Secret key for signing JWT tokens | Yes      |
+| `CLIENT_URL`     | Frontend URL (for CORS)           | Yes      |
 
 ### Frontend (`frontend/.env`)
 
-| Variable        | Description              | Default                        |
-|-----------------|--------------------------|--------------------------------|
-| `VITE_API_URL`  | Backend API base URL     | `http://localhost:5000/api`    |
+| Variable       | Description          | Default                     |
+|----------------|----------------------|-----------------------------|
+| `VITE_API_URL` | Backend API base URL | `http://localhost:5000/api` |
 
 ---
 
 ## Deployment
 
-### Backend (e.g. Render)
+### Backend on Render
 
-1. Set environment variables: `MONGO_URI`, `JWT_SECRET`, `PORT`
-2. Build command: `npm run build`
-3. Start command: `node dist/index.js`
+1. Connect your GitHub repo to Render
+2. Set **Root Directory** to `backend`
+3. Set **Build Command**: `npm install && npm run build`
+4. Set **Start Command**: `npm start`
+5. Add environment variables in Render dashboard:
+   - `MONGO_URI` — your MongoDB Atlas connection string
+   - `JWT_SECRET` — a strong random secret
+   - `MONGO_DATABASE` — `Todo`
+   - `CLIENT_URL` — your deployed frontend URL
+   - `NODE_ENV` — `production`
 
-### Frontend (Vercel)
+> **Note:** If your local DNS doesn't support SRV lookups, the app uses Google DNS (8.8.8.8) automatically to resolve MongoDB Atlas — no extra config needed.
 
-1. Set environment variable: `VITE_API_URL=https://your-backend-url/api`
-2. Build command: `npm run build`
-3. Publish directory: `dist`
-4. Add a redirect rule: `/* → /index.html` (for SPA routing)
+### Frontend on Netlify / Vercel
+
+1. Set **Root Directory** to `frontend`
+2. Set **Build Command**: `npm run build`
+3. Set **Publish Directory**: `dist`
+4. Add environment variable:
+   - `VITE_API_URL` — your Render backend URL + `/api` (e.g. `https://todo-backend.onrender.com/api`)
+5. Add a redirect rule for SPA routing: `/* → /index.html` (status 200)
 
 ---
 

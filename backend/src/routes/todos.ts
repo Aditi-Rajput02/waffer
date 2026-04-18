@@ -100,7 +100,7 @@ router.put('/:id', async (req: AuthRequest, res: Response): Promise<void> => {
     const updated = await Todo.findOneAndUpdate(
       { _id: req.params.id, userId: req.userId },
       { $set: updates },
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!updated) {
