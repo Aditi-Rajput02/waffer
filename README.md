@@ -2,6 +2,11 @@
 
 A full-stack To-Do List application built with **React**, **Node.js**, and **TypeScript**.
 
+## 🚀 Live Demo
+
+- **Frontend:** https://waffer-mu.vercel.app/
+- **Backend API:** https://waffer-9hrm.onrender.com
+
 ---
 
 ## Features
