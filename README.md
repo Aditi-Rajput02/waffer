@@ -24,18 +24,6 @@ A full-stack To-Do List application built with **React**, **Node.js**, and **Typ
 - ✅ **Per-user data** – Each user only sees their own tasks
 
 ---
-
-## Tech Stack
-
-| Layer     | Technology                        |
-|-----------|-----------------------------------|
-| Frontend  | React 18, TypeScript, Vite, Axios |
-| Backend   | Node.js, Express, TypeScript      |
-| Database  | MongoDB Atlas                     |
-| Auth      | JWT (jsonwebtoken) + bcryptjs     |
-
----
-
 ## Running Locally
 
 ### 1. Clone the repository
@@ -120,53 +108,7 @@ The app will be available at `http://localhost:5173`.
 
 ---
 
-## Environment Variables
-
-### Backend (`backend/.env`)
-
-| Variable         | Description                       | Required |
-|------------------|-----------------------------------|----------|
-| `PORT`           | Server port                       | No (5000)|
-| `MONGO_URI`      | MongoDB Atlas connection string   | Yes      |
-| `MONGO_DATABASE` | Database name                     | No (Todo)|
-| `JWT_SECRET`     | Secret key for signing JWT tokens | Yes      |
-| `CLIENT_URL`     | Frontend URL (for CORS)           | Yes      |
-
-### Frontend (`frontend/.env`)
-
-| Variable       | Description          | Default                     |
-|----------------|----------------------|-----------------------------|
-| `VITE_API_URL` | Backend API base URL | `http://localhost:5000/api` |
-
----
-
 ## Deployment
-
-### Backend on Render
-
-1. Connect your GitHub repo to Render
-2. Set **Root Directory** to `backend`
-3. Set **Build Command**: `npm install && npm run build`
-4. Set **Start Command**: `npm start`
-5. Add environment variables in Render dashboard:
-   - `MONGO_URI` — your MongoDB Atlas connection string
-   - `JWT_SECRET` — a strong random secret
-   - `MONGO_DATABASE` — `Todo`
-   - `CLIENT_URL` — your deployed frontend URL
-   - `NODE_ENV` — `production`
-
-> **Note:** If your local DNS doesn't support SRV lookups, the app uses Google DNS (8.8.8.8) automatically to resolve MongoDB Atlas — no extra config needed.
-
-### Frontend on Netlify / Vercel
-
-1. Set **Root Directory** to `frontend`
-2. Set **Build Command**: `npm run build`
-3. Set **Publish Directory**: `dist`
-4. Add environment variable:
-   - `VITE_API_URL` — your Render backend URL + `/api` (e.g. `https://todo-backend.onrender.com/api`)
-5. Add a redirect rule for SPA routing: `/* → /index.html` (status 200)
-
----
 
 ## License
 

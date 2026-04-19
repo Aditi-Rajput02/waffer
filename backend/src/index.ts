@@ -51,17 +51,17 @@ async function connectDB(): Promise<void> {
   }
   const dbName = process.env.MONGO_DATABASE || 'Todo';
   await mongoose.connect(mongoUri, { dbName });
-  console.log('✅ Connected to MongoDB Atlas');
+  console.log('Connected to MongoDB Atlas');
 }
 
 // ── Start Server ─────────────────────────────────────────────────────────────
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT} [${NODE_ENV}]`);
+      console.log(`Server running on http://localhost:${PORT} [${NODE_ENV}]`);
     });
   })
   .catch((err) => {
-    console.error('❌ Failed to connect to database:', err);
+    console.error('Failed to connect to database:', err);
     process.exit(1);
   });
